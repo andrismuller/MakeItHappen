@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "811576238587",
+    "firebase_url": "https://makeithappen-a78eb.firebaseio.com",
+    "project_id": "makeithappen-a78eb",
+    "storage_bucket": "makeithappen-a78eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811576238587:android:04580708a5341f49",
+        "android_client_info": {
+          "package_name": "hu.bme.andrismulller.makeithappen_withfriends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811576238587-jooqcag00aa2dis53e72ffifh64ia79i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hu.bme.andrismulller.makeithappen_withfriends",
+            "certificate_hash": "a033bc9da0532b3b987ba7e916199524a530dd09"
+          }
+        },
+        {
+          "client_id": "811576238587-1150kfoir9ge1bskqevtivuc1qejhoj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqTlOOxqob0nbGdYcQ-iHhze8CkQvx_lk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811576238587-1150kfoir9ge1bskqevtivuc1qejhoj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="login_page_title">Bejelentkezés</string>
+    <string name="logged_out">Kijelentkezve</string>
+    <string name="reqest_do_action">Do it!</string>
+    <string name="no_requests">Nincs kérés.</string>
+    <string name="requestsYouHave">db kérése van!</string>
+    <string name="request_page_title">Kérések</string>
+    <string name="share">Küldés</string>
+    <string name="request_message">Üzenet</string>
+    <string name="income">Bevétel</string>
+    <string name="wallet_item_value">Összeg</string>
+    <string name="new_wallet_item">Új elem</string>
+    <string name="expense">Kiadás</string>
+</resources>

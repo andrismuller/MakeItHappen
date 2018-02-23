@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Todo.NewTodoDialogFragment">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/newtodo_title"
+        android:id="@+id/newtodo_title_edittext"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/newtodo_required"
+        android:id="@+id/newtodo_required_edittext"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/newtodo_description"
+        android:id="@+id/newtodo_description_edittext"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newtodo_priority_spinner"
+            android:entries="@array/newtodo_priority_array"
+            android:layout_weight="1"></Spinner>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newtodo_category_spinner"
+            android:entries="@array/newtodo_category_array"
+            android:layout_weight="1"></Spinner>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newtodo_setalarm_button"
+        android:text="@string/set_alarm"/>
+
+</LinearLayout>

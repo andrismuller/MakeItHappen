@@ -1,0 +1,157 @@
+<resources>
+    <string name="app_name">Make It Happen - With Friends</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    //facebook
+    <string name="facebook_app_id">362929847509053</string>
+    <string name="fb_login_protocol_scheme">fb362929847509053</string>
+
+    <string name="status">Státusz</string>
+    <string name="login_success">Sikeres bejelentkezés!</string>
+    <string name="new_line">\\n</string>
+    <string name="greetings">Üdvözlöm</string>
+    <string name="login_canceled">Bejelentkezés megszakítva!</string>
+    <string name="login_error">Hiba történt!</string>
+    <string name="action_settings">Beállítások</string>
+    <string name="action_weather">Időjárás</string>
+    <string name="user">Üdvözlöm Felhasználó!</string>
+    <string name="welcome">Üdvözlöm</string>
+    <string name="action_send_email">E-mail küldése</string>
+    <string name="action_tips">Tippek</string>
+
+    <string name="useful_tips_for_todos">
+    Néhány hasznos tanács Todo lista használatához.\n
+    1. Komplex feladatokat célszerű kis feladatokra osztani.\n
+    2. Minden szükséges információt tüntess fel, ami szükséges a feladat elvégzéséhez.\n
+    3. Érdemes különválasztani a személyes, munkahelyi és egyéb feladatokat.\n
+    4. Legyen a feladatoknak prioritása (sürgősség, fontosság).\n
+    5. Ha lehet, a lista legyen rövid (20-nál több ne legyen).\n
+    6. Fókuszálj a jelenre! Ami időben messze van, annak helye a naptárban van.\n
+    Több információ (angol): http://lifehacker.com/5954123/back-to-basics-how-to-simplify-your-to-do-list-and-make-it-useful-again\n
+</string>
+    <string name="tips_fragment_title">Tippek</string>
+
+    <string name="action_add_todo">Todo létrehozása</string>
+    <string name="main_page_title">Fontos</string>
+    <string name="error">Hiba</string>
+    <string name="alarm_page_title">Emlékeztető</string>
+    <string name="set_alarm">Emlékeztető beállítása</string>
+    <string name="alarm_note_hint">Megjegyzés</string>
+    <string name="alarm_set">Emlékeztető beállítva</string>
+    <string name="cancel">Mégsem</string>
+    <string name="new_todo">Todo létrehozása</string>
+    <string name="newtodo_title">Todo cím</string>
+    <string name="newtodo_required">Szükséges információk</string>
+    <string name="newtodo_description">Részletek</string>
+    <string name="todo_page_title">Teendők</string>
+    <string name="place">Város</string>
+    <string name="temperature">Hőmérséklet</string>
+    <string name="next_day_weather">Holnapi időjárás</string>
+
+    <string-array name="newtodo_priority_array">
+        <item>Alacsony</item>
+        <item>Közepes</item>
+        <item>Magas</item>
+    </string-array>
+
+    <string-array name="newtodo_category_array">
+        <item>Személyes</item>
+        <item>Munka</item>
+    </string-array>
+
+    <string-array name="repeattype_array">
+        <item>Nincs</item>
+        <item>Napi</item>
+        <item>Heti</item>
+        <item>Havi</item>
+        <item>Hétköznap</item>
+        <item>Hétvégén</item>
+    </string-array>
+
+    <string name="new_note">Új jegyzet</string>
+    <string name="note_fragment_title">Jegyzetek</string>
+    <string name="block_networking">Internethozzáférés kikapcsolása</string>
+    <string name="block_all_apps">Összes alkalmazás blokkolása</string>
+    <string name="template">Sablonok:</string>
+    <string name="current_controls_set">Jelenlegi korlátozások:</string>
+    <string name="controllings">Korlátok:</string>
+    <string name="controlling_page_title">Korlátok</string>
+
+    <string-array name="limit_array">
+        <item>Sablon</item>
+        <item>Internet</item>
+        <item>Weboldal</item>
+        <item>Alkalmazás</item>
+    </string-array>
+
+    <string name="controlling_duration">Időtartam</string>
+    <string name="url">URL:</string>
+    <string name="title">Cím:</string>
+    <string name="start">Kezdet:</string>
+    <string name="date">Dátum: </string>
+    <string name="app">Alkalmazás:</string>
+    <string name="net">Internet:</string>
+    <string name="add_controlling">Új limit felvétele</string>
+    <string name="active">Aktiválás</string>
+    <string name="startNow">Kezdés most!</string>
+    <string name="duration">Időtartam: </string>
+    <string name="disabled">Tiltva</string>
+    <string name="enabled">Engedélyezve</string>
+    <string name="select_time">Kezdés időpontja</string>
+
+    <string-array name="template_array">
+        <item>Nincs sablon</item>
+    </string-array>
+
+    <string-array name="time_unit_array">
+        <item>perc</item>
+        <item>óra</item>
+        <item>nap</item>
+        <item>hét</item>
+    </string-array>
+
+    <string name="pick_time">Időpont választás</string>
+    <string name="ok">Ok</string>
+
+    <string name="friends_page_title">Barátok</string>
+    <string name="write_message_here">Ide írd az üzenetet...</string>
+    <string name="back">Vissza</string>
+
+    <string name="wallet_page_title">Pénztárca</string>
+    <string name="calendar_page_title">Naptár</string>
+    <string name="organization_group">Szervezés</string>
+
+    <string name="login_page_title">Bejelentkezés</string>
+    <string name="logged_out">Kijelentkezve</string>
+    <string name="reqest_do_action">Do it!</string>
+    <string name="no_requests">Nincs kérés.</string>
+    <string name="requestsYouHave">db kérése van!</string>
+    <string name="request_page_title">Kérések</string>
+    <string name="share">Küldés</string>
+    <string name="request_message">Üzenet</string>
+    <string name="income">Bevétel</string>
+    <string name="wallet_item_value">Összeg</string>
+    <string name="new_wallet_item">Új elem</string>
+    <string name="expense">Kiadás</string>
+    <string name="hello_blank_fragment">Hello, ez még nincs kész</string>
+
+    <string-array name="wallet_item_income_category">
+        <item>Fizetés</item>
+        <item>Kölcsön</item>
+        <item>Egyéb</item>
+    </string-array>
+
+    <string-array name="wallet_item_expense_category">
+        <item>Élelmiszer</item>
+        <item>Gyermek</item>
+        <item>Ruházat</item>
+        <item>Szórakozás</item>
+        <item>Lakás</item>
+        <item>Utazás</item>
+        <item>Törlesztő</item>
+        <item>Egyéb</item>
+    </string-array>
+
+</resources>

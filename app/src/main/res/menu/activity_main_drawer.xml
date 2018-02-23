@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/login_page_title" />
+        <item
+            android:id="@+id/nav_controlling"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/controlling_page_title" />
+        <item
+            android:id="@+id/nav_friends"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/friends_page_title" />
+        <item
+            android:id="@+id/nav_requests"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/request_page_title" />
+
+    </group>
+
+    <item android:title="@string/organization_group">
+        <menu>
+            <item
+                android:id="@+id/nav_main"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="@string/main_page_title" />
+            <item
+                android:id="@+id/nav_alarm"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="@string/alarm_page_title" />
+            <item
+                android:id="@+id/nav_note"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="@string/note_fragment_title" />
+            <item
+                android:id="@+id/nav_todo"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/todo_page_title" />
+            <item
+                android:id="@+id/nav_calendar"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/calendar_page_title" />
+            <item
+                android:id="@+id/nav_wallet"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/wallet_page_title" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:drawable/alert_light_frame"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/note_listitem_datetv"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="kezdostring" />
+
+    <TextView
+        android:id="@+id/note_listitem_notetv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/note_listitem_datetv"
+        android:minHeight="52dp"
+        android:paddingRight="52dp"/>
+
+    <ImageButton
+        android:id="@+id/note_listitem_deletebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/note_listitem_notetv"
+        android:layout_alignRight="@id/note_listitem_notetv"
+        android:layout_below="@id/note_listitem_datetv"
+        android:layout_alignParentRight="true"
+        android:src="@android:drawable/ic_delete" />
+
+</RelativeLayout>

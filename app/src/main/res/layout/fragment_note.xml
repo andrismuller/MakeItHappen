@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Note.NoteFragment">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/note_fragment_edittext"
+        android:hint="@string/new_note"
+        android:layout_alignParentTop="true">
+    </EditText>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_add"
+        android:id="@+id/note_fragment_imageview"
+        android:layout_below="@id/note_fragment_edittext"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/note_fragment_listview"
+        android:layout_below="@id/note_fragment_imageview"></ListView>
+
+</RelativeLayout>

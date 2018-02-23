@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Alarm.SetAlarmDialogFragment"
+    android:orientation="vertical"
+    android:id="@+id/fragment_alarm">
+
+    <EditText
+        android:id="@+id/alarm_note_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:hint="@string/alarm_note_hint"/>
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"
+        android:id="@+id/alarm_datePicker"></DatePicker>
+
+    <TimePicker
+        android:id="@+id/alarm_timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:timePickerMode="spinner" />
+
+    <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/set_alarm"-->
+        <!--android:id="@+id/set_alarm_button"/>-->
+
+</LinearLayout>

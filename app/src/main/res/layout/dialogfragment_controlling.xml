@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Controlling.ControllingDialogFragment"
+    android:orientation="vertical"
+    android:weightSum="14"
+    android:layout_margin="5dp"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/new_item_1"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/controlling_title_edittext"
+            android:minWidth="100dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/new_item_2"
+        android:layout_below="@id/new_item_1">
+        <TextView
+            android:id="@+id/controlling_duration_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/controlling_duration"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:padding="5dp"/>
+
+        <ImageButton
+            android:id="@+id/decrement_duration_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove_circle_black_18dp" />
+
+        <EditText
+            android:id="@+id/controlling_duration_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="18dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:padding="5dp"
+            android:hint="1.0"/>
+
+        <ImageButton
+            android:id="@+id/increment_duration_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_circle_black_18dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/duration_unit_spinner"
+            android:entries="@array/time_unit_array"></Spinner>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_time_button"
+        android:text="@string/select_time"
+        android:layout_below="@id/new_item_2"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/new_item_5"
+        android:layout_below="@id/select_time_button"
+        android:weightSum="10">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/url"
+            android:layout_weight="2"/>
+        <!--<EditText-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/url_edittext"-->
+            <!--android:hint="http://facebook.com"/>-->
+        <!--<Spinner-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/controlling_url_spinner"></Spinner>-->
+
+        <AutoCompleteTextView
+            android:id="@+id/url_autotextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:dropDownWidth="match_parent"
+            android:minWidth="200dp"></AutoCompleteTextView>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_url_button"
+            android:src="@drawable/ic_add_circle_black_18dp"
+            android:layout_weight="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/new_item_6"
+        android:layout_below="@id/new_item_5">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/controlling_app_spinner"></Spinner>
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/add_app_button"-->
+            <!--android:src="@drawable/ic_add_circle_black_18dp"/>-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/new_item_7"
+        android:layout_below="@id/new_item_6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/net"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/internet_checkbox"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_item_8"
+        android:layout_below="@id/new_item_7">
+
+        <ListView
+            android:id="@+id/new_controlling_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+    </LinearLayout>
+
+</RelativeLayout>
