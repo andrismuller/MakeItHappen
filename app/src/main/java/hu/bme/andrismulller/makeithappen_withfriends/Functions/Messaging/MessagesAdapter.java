@@ -1,11 +1,13 @@
 package hu.bme.andrismulller.makeithappen_withfriends.Functions.Messaging;
 
+import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.facebook.Profile;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
@@ -33,7 +35,7 @@ public class MessagesAdapter extends FirebaseRecyclerAdapter<MyMessage, MessageH
         if (message.getMessage() != null) {
             holder.messageTextView.setText(message.getMessage());
 
-            if (!message.getToUser().equals("me")) {
+            if (!message.getToUser().equals(Profile.getCurrentProfile().getId())) {
                 LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.messageTextView.getLayoutParams();
                 layoutParams.gravity = Gravity.RIGHT;
                 holder.messageTextView.setLayoutParams(layoutParams);

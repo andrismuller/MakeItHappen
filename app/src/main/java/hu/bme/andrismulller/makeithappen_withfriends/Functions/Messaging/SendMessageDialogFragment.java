@@ -109,7 +109,7 @@ public class SendMessageDialogFragment extends DialogFragment {
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyMessage message = new MyMessage(sendMessageEdittext.getText().toString(), Calendar.getInstance().getTimeInMillis(),"me",userID, false);
+                MyMessage message = new MyMessage(sendMessageEdittext.getText().toString(), Calendar.getInstance().getTimeInMillis(),Profile.getCurrentProfile().getId(),userID, false);
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).push().setValue(message);
                 sendMessageEdittext.setText("");
                 //mFirebaseAnalytics.logEvent(MESSAGE_SENT_EVENT, null);

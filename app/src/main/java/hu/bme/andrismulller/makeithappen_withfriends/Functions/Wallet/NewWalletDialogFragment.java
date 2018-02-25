@@ -3,6 +3,7 @@ package hu.bme.andrismulller.makeithappen_withfriends.Functions.Wallet;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,8 +30,9 @@ public class NewWalletDialogFragment extends DialogFragment {
     EditText descriptionET;
     EditText valueET;
     Spinner categorySpinner;
+    OnWalletItemAddedListener onWalletItemAddedListener;
 
-    public interface OnWalletItemAdded{
+    public interface OnWalletItemAddedListener{
         void onWalletItemAdded(WalletItem walletItem);
     }
 
@@ -55,6 +57,8 @@ public class NewWalletDialogFragment extends DialogFragment {
                         walletItem.setId(walletItem.save());
 
                         dialogInterface.dismiss();
+
+                        onWalletItemAddedListener.onWalletItemAdded(walletItem);
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -85,5 +89,11 @@ public class NewWalletDialogFragment extends DialogFragment {
 
     public void setBevetel(boolean bevetel) {
         this.bevetel = bevetel;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.onWalletItemAddedListener = (OnWalletItemAddedListener) context;
     }
 }

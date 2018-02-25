@@ -21,7 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if (intent.getStringExtra("type").equals("alarm")) {
             Intent intent1 = new Intent();
-            intent1.setClassName("hu.bme.andrismulller.makeithappen_withfriends", "AlarmActivity");
+            intent1.setClassName("hu.bme.andrismulller.makeithappen_withfriends", "hu.bme.andrismulller.makeithappen_withfriends.Functions.Alarm.AlarmActivity");
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent1.putExtra("note", intent.getStringExtra("note"));
             Log.i(TAG, "NOTE: " + intent.getStringExtra("note"));

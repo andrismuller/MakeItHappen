@@ -17,8 +17,8 @@ public class MyWalletRecyclerViewAdapter extends RecyclerView.Adapter<MyWalletRe
 
     private final List<WalletItem> mValues;
 
-    public MyWalletRecyclerViewAdapter(List<WalletItem> items) {
-        mValues = items;
+    public MyWalletRecyclerViewAdapter() {
+        mValues = WalletItem.listAll(WalletItem.class);
     }
 
     @Override

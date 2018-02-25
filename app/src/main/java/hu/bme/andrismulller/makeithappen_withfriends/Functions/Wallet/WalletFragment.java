@@ -26,7 +26,6 @@ import hu.bme.andrismulller.makeithappen_withfriends.model.WalletItem;
 public class WalletFragment extends Fragment {
 
     private int mColumnCount = 1;
-    private List<WalletItem> walletItems;
     private MyWalletRecyclerViewAdapter mAdapter;
 
     private OnNewWalletItemListener mListener;
@@ -46,8 +45,6 @@ public class WalletFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        walletItems = WalletItem.listAll(WalletItem.class);
     }
 
     @Override
@@ -84,7 +81,7 @@ public class WalletFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
         }
-        mAdapter = new MyWalletRecyclerViewAdapter(walletItems);
+        mAdapter = new MyWalletRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
 
         return view;
@@ -109,7 +106,6 @@ public class WalletFragment extends Fragment {
     }
 
     public void update(WalletItem walletItem) {
-        walletItems.add(walletItem);
         mAdapter.update(walletItem);
     }
 

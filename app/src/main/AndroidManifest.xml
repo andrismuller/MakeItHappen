@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -27,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         // database
         <meta-data
             android:name="DATABASE"
@@ -43,11 +45,13 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
         // facebook
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -60,18 +64,13 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        // receivers
-        <receiver
-            android:name=".Functions.Alarm.AlarmReceiver"
-            android:enabled="true"
-            android:exported="true" >
-        </receiver>
 
         <activity android:name=".Functions.Alarm.AlarmActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Functions.Homescreen.HomeScreenActivity"
             android:label="@string/app_name"
@@ -85,15 +84,24 @@
             </intent-filter>
         </activity>
 
-        <!--receiver
-            android:name=".Homescreen.WifiConnectionReceiver"
+        // receivers
+        <receiver
+            android:name=".Functions.Alarm.AlarmReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_menu_share" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
+        <service android:name=".Functions.FirebaseServices.MyServiceFirebaseMessagingService">
             <intent-filter>
-                <action android:name="android.net.wifi.STATE_CHANGE" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </receiver-->
+        </service>
     </application>
 
 </manifest>

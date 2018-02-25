@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         , ControllingDialogFragment.OnControllingAdded
         , ControllingAdapter.OnControllingStartedListener
         , ControllingAdapter.OnSharingListener
-        , NewWalletDialogFragment.OnWalletItemAdded, WalletFragment.OnNewWalletItemListener {
+        , NewWalletDialogFragment.OnWalletItemAddedListener, WalletFragment.OnNewWalletItemListener {
 
     private String fbToken;
     AccessTokenTracker accessTokenTracker;
@@ -163,34 +163,36 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        mRequestReferenceListener = mRequestReference.addChildEventListener(new ChildEventListener() {
+        if (mRequestReference != null) {
+            mRequestReferenceListener = mRequestReference.addChildEventListener(new ChildEventListener() {
 
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                MyMessage request = dataSnapshot.getValue(MyMessage.class);
-                request.setId(request.save());
-            }
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    MyMessage request = dataSnapshot.getValue(MyMessage.class);
+                    request.setId(request.save());
+                }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                
-            }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
 
-            }
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
 
-            }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
 
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

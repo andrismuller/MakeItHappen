@@ -72,7 +72,7 @@ public class ShareControllingDialogFragment extends DialogFragment {
 
                                 MyMessage message = new MyMessage(messageET.getText() + Constants.DELIMITER_REQUEST + Constants.REQUEST_TYPE_CALL + Constants.DELIMITER_REQUEST + controlling.getStartTime(),
                                         Calendar.getInstance().getTimeInMillis(),
-                                        friendSpinner.getSelectedItem().toString(), Profile.getCurrentProfile().getId(), true);
+                                        Profile.getCurrentProfile().getId(), friends.get(friendSpinner.getSelectedItemPosition()).getFacebookId(), true);
                                 message.setId(message.save());
 
                                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).push().setValue(message);
