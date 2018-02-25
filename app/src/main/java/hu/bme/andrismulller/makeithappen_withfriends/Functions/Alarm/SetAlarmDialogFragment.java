@@ -21,6 +21,7 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+import hu.bme.andrismulller.makeithappen_withfriends.MainActivity;
 import hu.bme.andrismulller.makeithappen_withfriends.R;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Alarm;
 
@@ -92,8 +93,17 @@ public class SetAlarmDialogFragment extends DialogFragment {
                                 myIntent.putExtra("note", note);
                                 myIntent.putExtra("type", "alarm");
                                 PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), 0, myIntent, PendingIntent.FLAG_ONE_SHOT);
-                                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+                                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getContext().ALARM_SERVICE);
+//                                if (Build.VERSION.SDK_INT >= 23) {
+//                                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+//                                } else if (Build.VERSION.SDK_INT >= 19) {
+//                                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+//                                } else {
+//                                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+//                                }
+                                Intent intentMain = new Intent(getContext(), MainActivity.class);
+                                PendingIntent pendingIntentMain = PendingIntent.getActivity(getContext(), 0, intentMain, 0);
+                                alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), pendingIntentMain), alarmIntent);
 
                                 dialog.dismiss();
 
