@@ -219,9 +219,13 @@ public class MainActivity extends AppCompatActivity
         navHeaderUserTV = header.findViewById(R.id.nav_header_user_name);
         navHeaderImgV = header.findViewById(R.id.nav_header_imageView);
 
-        NoteFragment noteFragment = new NoteFragment();
-        noteFragment.setArguments(getIntent().getExtras());
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, noteFragment).commit();
+        MainFragment mainFragment = new MainFragment();
+        mainFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mainFragment).commit();
+
+        if (Profile.getCurrentProfile() != null){
+            onLogin(null);
+        }
 
         accessTokenTracker = new AccessTokenTracker() {
             @Override
@@ -286,9 +290,21 @@ public class MainActivity extends AppCompatActivity
                 controllingFragment.setArguments(getIntent().getExtras());
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, controllingFragment).commit();
             } else if (id == R.id.nav_friends) {
-                MessagingFragment messagingFragment = new MessagingFragment();
-                messagingFragment.setArguments(getIntent().getExtras());
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, messagingFragment).commit();
+                if (Profile.getCurrentProfile() != null) {
+                    MessagingFragment messagingFragment = new MessagingFragment();
+                    messagingFragment.setArguments(getIntent().getExtras());
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, messagingFragment).commit();
+                } else {
+                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.you_need_to_login_first), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.login, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                LoginFragment loginFragment = new LoginFragment();
+                                loginFragment.setArguments(getIntent().getExtras());
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, loginFragment).commit();
+                            }
+                        }).show();
+                }
             } else if (id == R.id.nav_todo) {
                 TodoFragment todoFragment = new TodoFragment();
                 todoFragment.setArguments(getIntent().getExtras());
@@ -303,7 +319,9 @@ public class MainActivity extends AppCompatActivity
                 alarmFragment.setArguments(getIntent().getExtras());
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, alarmFragment).commit();
             } else if (id == R.id.nav_main) {
-
+                MainFragment mainFragment = new MainFragment();
+                mainFragment.setArguments(getIntent().getExtras());
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mainFragment).commit();
             } else if (id == R.id.nav_note) {
                 NoteFragment noteFragment = new NoteFragment();
                 noteFragment.setArguments(getIntent().getExtras());

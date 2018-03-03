@@ -13,4 +13,9 @@
     <string name="wallet_item_value">Összeg</string>
     <string name="new_wallet_item">Új elem</string>
     <string name="expense">Kiadás</string>
+    <string name="todos_you_have">db teendője van.</string>
+    <string name="controllings_you_have">db aktív korlátozásod van.</string>
+    <string name="requests_you_have">db kérésed van.</string>
+    <string name="you_need_to_login_first">Jelentkezz be!</string>
+    <string name="login">Bejelentkezés</string>
 </resources>

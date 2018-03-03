@@ -8,6 +8,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import hu.bme.andrismulller.makeithappen_withfriends.MyUtils.MyUtils;
+import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
 
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
@@ -30,7 +31,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         } else if (intent.getStringExtra("type").equals("controlling")){
             MyUtils.turnOnWifi(context);
 
-
+            Controlling controlling = Controlling.find(Controlling.class, "id = ?", intent.getStringExtra("id")).get(0);
+            controlling.setActivated(false);
+            controlling.update();
         }
     }
 }
