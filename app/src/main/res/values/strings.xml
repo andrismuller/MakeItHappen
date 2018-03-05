@@ -141,6 +141,8 @@
     <string name="requests_you_have">db kérésed van.</string>
     <string name="you_need_to_login_first">Jelentkezz be!</string>
     <string name="login">Bejelentkezés</string>
+    <string name="weather_page_title">Időjárás</string>
+    <string name="weather_forecast">Időjárás előrejelzés</string>
 
     <string-array name="wallet_item_income_category">
         <item>Fizetés</item>
@@ -158,5 +160,9 @@
         <item>Törlesztő</item>
         <item>Egyéb</item>
     </string-array>
+
+    <string name="title_activity_weather_graph">WeatherGraphActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

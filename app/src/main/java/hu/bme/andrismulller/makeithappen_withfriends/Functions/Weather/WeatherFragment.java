@@ -1,7 +1,8 @@
-package hu.bme.andrismulller.makeithappen_withfriends;
+package hu.bme.andrismulller.makeithappen_withfriends.Functions.Weather;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,35 +10,32 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.List;
 
-import hu.bme.andrismulller.makeithappen_withfriends.Functions.Weather.DownloadWeatherDataTask;
-import hu.bme.andrismulller.makeithappen_withfriends.Functions.Weather.WeatherFragment;
+import hu.bme.andrismulller.makeithappen_withfriends.MainActivity;
 import hu.bme.andrismulller.makeithappen_withfriends.MyUtils.Constants;
-import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
-import hu.bme.andrismulller.makeithappen_withfriends.model.MyMessage;
-import hu.bme.andrismulller.makeithappen_withfriends.model.Todo;
+import hu.bme.andrismulller.makeithappen_withfriends.R;
 import hu.bme.andrismulller.makeithappen_withfriends.model.WeatherData;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment implements DownloadWeatherDataTask.OnWeatherDataArrivedListener {
+public class WeatherFragment extends Fragment implements DownloadWeatherDataTask.OnWeatherDataArrivedListener{
 
-    TextView todoTV;
-    TextView controlTV;
-    TextView requestTV;
-    TextView weatherTV;
+    TextView tempTextView;
+    TextView cityTextView;
+    TextView descriptionTV;
+    ImageView iconIV;
+    Button forecastButton;
 
-    List<Todo> todos;
-    List<Controlling> controllings;
-    List<MyMessage> requests;
-
-    public MainFragment() {
+    public WeatherFragment() {
         // Required empty public constructor
     }
 
@@ -45,24 +43,25 @@ public class MainFragment extends Fragment implements DownloadWeatherDataTask.On
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        todos = Todo.find(Todo.class, "is_done = 0");
-        controllings = Controlling.find(Controlling.class, "activated = 1");
-        requests = MyMessage.find(MyMessage.class, "is_request = 1");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-
-        todoTV = view.findViewById(R.id.main_todo_tv);
-        todoTV.setText(todos.size() + " " + getString(R.string.todos_you_have));
-        controlTV = view.findViewById(R.id.main_control_tv);
-        controlTV.setText(controllings.size() + " " + getString(R.string.controllings_you_have));
-        requestTV = view.findViewById(R.id.main_request_tv);
-        requestTV.setText(requests.size() + " " + getString(R.string.requests_you_have));
-        weatherTV = view.findViewById(R.id.main_weather_tv);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_weather, container, false);
+        cityTextView = view.findViewById(R.id.weather_place_tv);
+        tempTextView = view.findViewById(R.id.weather_temp_tv);
+        descriptionTV = view.findViewById(R.id.weather_description_tv);
+        iconIV = view.findViewById(R.id.weather_icon_iv);
+        forecastButton = view.findViewById(R.id.weather_forecast_button);
+        forecastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), WeatherGraphActivity.class);
+                startActivity(intent);
+            }
+        });
 
         SharedPreferences myPref = getContext().getSharedPreferences(Constants.MY_PREFERENCE, Context.MODE_PRIVATE);
         if (myPref.getLong(Constants.KEY_WEATHER_UPDATE_TIME, 0) < Calendar.getInstance().getTimeInMillis() - Constants.WEATHER_UPDATE_INTERVAL) {
@@ -80,6 +79,10 @@ public class MainFragment extends Fragment implements DownloadWeatherDataTask.On
     public void onWeatherDataArrived(List<WeatherData> data) {
         if (data == null)
             return;
-        weatherTV.setText(data.get(0).getPlace() + ": " + getString(R.string.temperature) + " (°C): " + data.get(0).getTemperature());
+        tempTextView.setText(data.get(0).getTemperature());
+        cityTextView.setText(data.get(0).getPlace());
+        descriptionTV.setText(data.get(0).getDescription());
+        Picasso.with(getContext()).load(Constants.WEATHER_ICON_URL + data.get(0).getIcon() + ".png").into(iconIV);
     }
+
 }

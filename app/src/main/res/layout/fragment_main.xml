@@ -37,6 +37,14 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:padding="10dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_weather_tv"
+                android:background="@drawable/main_item_background"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:padding="10dp"/>
+
         </LinearLayout>
 
     </ScrollView>

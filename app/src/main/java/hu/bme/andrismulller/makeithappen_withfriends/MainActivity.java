@@ -94,6 +94,7 @@ import hu.bme.andrismulller.makeithappen_withfriends.Functions.Todo.NewTodoDialo
 import hu.bme.andrismulller.makeithappen_withfriends.Functions.Todo.TodoFragment;
 import hu.bme.andrismulller.makeithappen_withfriends.Functions.Wallet.NewWalletDialogFragment;
 import hu.bme.andrismulller.makeithappen_withfriends.Functions.Wallet.WalletFragment;
+import hu.bme.andrismulller.makeithappen_withfriends.Functions.Weather.WeatherFragment;
 import hu.bme.andrismulller.makeithappen_withfriends.MyUtils.Constants;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
 import hu.bme.andrismulller.makeithappen_withfriends.model.FacebookUser;
@@ -338,6 +339,10 @@ public class MainActivity extends AppCompatActivity
                 RequestFragment requestFragment = new RequestFragment();
                 requestFragment.setArguments(getIntent().getExtras());
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, requestFragment).commit();
+            } else if (id == R.id.nav_weather) {
+                WeatherFragment weatherFragment = new WeatherFragment();
+                weatherFragment.setArguments(getIntent().getExtras());
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, weatherFragment).commit();
             }
         }
 

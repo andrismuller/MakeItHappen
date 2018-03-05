@@ -14,4 +14,16 @@ public class Constants {
     public static final int REQUEST_AUTHORIZATION = 1001;
     public static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     public static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+
+    public final static int REQUEST_FORECAST = 1;
+    public final static int REQUEST_WEATHER = 2;
+    public final static String KEY_FORCAST_UPDATE_TIME = "forecast_update_time";
+    public final static String KEY_WEATHER_UPDATE_TIME = "weather_update_time";
+    public final static int WEATHER_UPDATE_INTERVAL = 3600000;
+
+    public static final String MY_PREFERENCE = "mypref";
+
+    public static final String BUDAPEST_WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q=Budapest,hu&units=metric&appid=1358e65404bbf025e405a5f58ded63ec";
+    public static final String WEATHER_ICON_URL = "http://openweathermap.org/img/w/";
+
 }
