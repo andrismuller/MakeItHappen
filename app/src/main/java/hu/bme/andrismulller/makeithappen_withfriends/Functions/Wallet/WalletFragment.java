@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.List;
-
 import hu.bme.andrismulller.makeithappen_withfriends.R;
 import hu.bme.andrismulller.makeithappen_withfriends.model.WalletItem;
 
@@ -23,7 +21,7 @@ import hu.bme.andrismulller.makeithappen_withfriends.model.WalletItem;
  * Activities containing this fragment MUST implement the {@link OnNewWalletItemListener}
  * interface.
  */
-public class WalletFragment extends Fragment {
+public class WalletFragment extends Fragment implements MyWalletRecyclerViewAdapter.WalletUpdatedListener {
 
     private int mColumnCount = 1;
     private MyWalletRecyclerViewAdapter mAdapter;
@@ -68,6 +66,7 @@ public class WalletFragment extends Fragment {
             }
         });
         createNewItemButton = view.findViewById(R.id.wallet_fragment_new_item_button);
+        createNewItemButton.setText(getString(R.string.create));
         createNewItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +80,7 @@ public class WalletFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
         }
-        mAdapter = new MyWalletRecyclerViewAdapter();
+        mAdapter = new MyWalletRecyclerViewAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
         return view;
@@ -109,7 +108,12 @@ public class WalletFragment extends Fragment {
         mAdapter.update(walletItem);
     }
 
-    public interface OnNewWalletItemListener {
+	@Override
+	public void updated(int balance) {
+		balanceTV.setText(getString(R.string.balance) + balance);
+	}
+
+	public interface OnNewWalletItemListener {
         void onNewWalletItem(boolean bevetel);
     }
 }

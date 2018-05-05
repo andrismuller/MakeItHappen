@@ -40,6 +40,8 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="hu.bme.andrismulller.makeithappen_withfriends" />
+
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -98,9 +100,9 @@
 
         <activity
             android:name=".Functions.Weather.WeatherGraphActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_weather_graph"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/NoTitleBar"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

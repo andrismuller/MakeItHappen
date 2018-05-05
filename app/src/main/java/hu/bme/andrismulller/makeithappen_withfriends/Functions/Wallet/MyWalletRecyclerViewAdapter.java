@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import hu.bme.andrismulller.makeithappen_withfriends.Functions.Wallet.WalletFragment.OnNewWalletItemListener;
 import hu.bme.andrismulller.makeithappen_withfriends.R;
 import hu.bme.andrismulller.makeithappen_withfriends.model.WalletItem;
 
@@ -16,9 +15,16 @@ import java.util.List;
 public class MyWalletRecyclerViewAdapter extends RecyclerView.Adapter<MyWalletRecyclerViewAdapter.ViewHolder> {
 
     private final List<WalletItem> mValues;
+    WalletUpdatedListener walletUpdatedListener;
 
-    public MyWalletRecyclerViewAdapter() {
+    public interface WalletUpdatedListener {
+    	void updated(int balance);
+    }
+
+    public MyWalletRecyclerViewAdapter(WalletUpdatedListener listener) {
         mValues = WalletItem.listAll(WalletItem.class);
+        walletUpdatedListener = listener;
+	    walletUpdatedListener.updated(countBalance());
     }
 
     @Override
@@ -46,6 +52,9 @@ public class MyWalletRecyclerViewAdapter extends RecyclerView.Adapter<MyWalletRe
 
     public void update(WalletItem walletItem) {
         mValues.add(walletItem);
+        notifyDataSetChanged();
+
+        walletUpdatedListener.updated(countBalance());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,5 +78,17 @@ public class MyWalletRecyclerViewAdapter extends RecyclerView.Adapter<MyWalletRe
         public String toString() {
             return super.toString() + " '" + mValueView.getText() + "'";
         }
+    }
+
+    public int countBalance(){
+	    int balance = 0;
+	    for (WalletItem item : mValues){
+		    if (item.isBevetel()){
+			    balance += item.getErtek();
+		    } else {
+			    balance -= item.getErtek();
+		    }
+	    }
+	    return balance;
     }
 }

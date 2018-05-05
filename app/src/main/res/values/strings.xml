@@ -164,5 +164,9 @@
     <string name="title_activity_weather_graph">WeatherGraphActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="no_internet">Nincs internetkapcsolat!</string>
+    <string name="create">Létrehozás</string>
+    <string name="balance">Egyenleg:</string>
+    <string name="wallet_item_description">Leírás</string>
 
 </resources>

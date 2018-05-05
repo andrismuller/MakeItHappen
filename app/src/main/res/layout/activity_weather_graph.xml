@@ -11,9 +11,19 @@
         android:visibility="invisible"
         android:id="@+id/forecast_progressbar"/>
 
-    <com.jjoe64.graphview.GraphView
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/forecast_graph"/>
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="1800dip"
+                android:layout_height="match_parent"
+                android:id="@+id/forecast_graph"/>
+        </LinearLayout>
+    </HorizontalScrollView>
 </FrameLayout>

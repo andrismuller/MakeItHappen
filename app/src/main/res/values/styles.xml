@@ -28,5 +28,9 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+    
+    <style name="NoTitleBar" parent="Theme.AppCompat">
+        <item name="windowNoTitle">true</item>
+    </style>
 
 </resources>

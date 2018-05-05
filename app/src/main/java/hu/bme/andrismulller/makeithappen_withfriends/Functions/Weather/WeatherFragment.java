@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,8 @@ public class WeatherFragment extends Fragment implements DownloadWeatherDataTask
     TextView descriptionTV;
     ImageView iconIV;
     Button forecastButton;
+    EditText placeET;
+    Button placeOKButton;
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -60,6 +63,14 @@ public class WeatherFragment extends Fragment implements DownloadWeatherDataTask
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), WeatherGraphActivity.class);
                 startActivity(intent);
+            }
+        });
+        placeET = view.findViewById(R.id.weather_place_et);
+        placeOKButton = view.findViewById(R.id.weather_place_ok_button);
+        placeOKButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

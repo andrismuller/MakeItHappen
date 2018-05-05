@@ -68,6 +68,7 @@ public class MainFragment extends Fragment implements DownloadWeatherDataTask.On
         if (myPref.getLong(Constants.KEY_WEATHER_UPDATE_TIME, 0) < Calendar.getInstance().getTimeInMillis() - Constants.WEATHER_UPDATE_INTERVAL) {
             DownloadWeatherDataTask downloadWeatherDataTask = new DownloadWeatherDataTask(this, Constants.REQUEST_WEATHER, getContext());
             downloadWeatherDataTask.execute(Constants.BUDAPEST_WEATHER_URL);
+            WeatherData.deleteAll(WeatherData.class,"forecast = 0");
         } else {
             List<WeatherData> weatherDataList = WeatherData.find(WeatherData.class, "forecast = 0");
             onWeatherDataArrived(weatherDataList);

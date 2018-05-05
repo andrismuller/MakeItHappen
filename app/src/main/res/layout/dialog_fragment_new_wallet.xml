@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/wallet_item_description_et"
-        android:hint="@string/wallet_item_value"/>
+        android:hint="@string/wallet_item_description"/>
 
     <EditText
         android:layout_width="match_parent"

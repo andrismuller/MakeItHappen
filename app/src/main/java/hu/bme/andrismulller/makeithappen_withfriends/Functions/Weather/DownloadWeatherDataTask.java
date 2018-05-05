@@ -106,7 +106,7 @@ public class DownloadWeatherDataTask extends AsyncTask<String,Void,String> {
                 placeName = jsonObject.getJSONObject("city").getString("name");
 
                 for (int i = 0; i < weatherData.length(); ++i) {
-                    JSONObject listItem = weatherData.getJSONObject(0);
+                    JSONObject listItem = weatherData.getJSONObject(i);
                     dateTimeUTC = listItem.getString("dt");
                     temperature = listItem.getJSONObject("main").getString("temp");
                     description = listItem.getJSONArray("weather").getJSONObject(0).getString("description");

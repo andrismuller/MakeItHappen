@@ -6,18 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import hu.bme.andrismulller.makeithappen_withfriends.Functions.Calendar.CalendarFragment.OnListFragmentInteractionListener;
 import hu.bme.andrismulller.makeithappen_withfriends.R;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a String and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- */
 public class MyCalendarRecyclerViewAdapter extends RecyclerView.Adapter<MyCalendarRecyclerViewAdapter.ViewHolder> {
 
-    private final List<String> mValues;
+    private List<String> mValues;
 
     public MyCalendarRecyclerViewAdapter(List<String > items) {
         mValues = items;
@@ -39,6 +34,11 @@ public class MyCalendarRecyclerViewAdapter extends RecyclerView.Adapter<MyCalend
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    public void setItems(List<String> items) {
+        this.mValues = items;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

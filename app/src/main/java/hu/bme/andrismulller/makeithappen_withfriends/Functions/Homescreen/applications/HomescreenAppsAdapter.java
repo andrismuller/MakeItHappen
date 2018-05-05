@@ -46,10 +46,6 @@ public class HomescreenAppsAdapter extends RecyclerView.Adapter<HomescreenAppsAd
             @Override
             public void onClick(View view) {
                 activity.startActivity(app.getIntent());
-//                Intent launchIntent = activity.getPackageManager().getLaunchIntentForPackage(app.);
-//                if (launchIntent != null) {
-//                    activity.startActivity(launchIntent);
-//                }
             }
         });
     }

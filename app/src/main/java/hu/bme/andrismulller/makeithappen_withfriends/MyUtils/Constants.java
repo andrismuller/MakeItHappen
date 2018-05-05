@@ -25,5 +25,8 @@ public class Constants {
 
     public static final String BUDAPEST_WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q=Budapest,hu&units=metric&appid=1358e65404bbf025e405a5f58ded63ec";
     public static final String WEATHER_ICON_URL = "http://openweathermap.org/img/w/";
+    public static final String FORECAST_URL = "http://api.openweathermap.org/data/2.5/forecast?q=Budapest,hu&units=metric&appid=1358e65404bbf025e405a5f58ded63ec";
 
+    public static final String PREF_ACCOUNT_NAME = "accountName";
+    public static final int RESULT_OK = 1;
 }
