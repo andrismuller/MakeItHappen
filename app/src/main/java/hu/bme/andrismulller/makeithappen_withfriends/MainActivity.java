@@ -1,9 +1,5 @@
 package hu.bme.andrismulller.makeithappen_withfriends;
 
-import android.*;
-import android.accounts.AccountManager;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -13,15 +9,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -44,25 +35,15 @@ import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.DateTime;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.Events;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.orm.SugarRecord;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -78,6 +59,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import hu.bme.andrismulller.makeithappen_withfriends.Functions.Alarm.AlarmFragment;
@@ -98,12 +80,12 @@ import hu.bme.andrismulller.makeithappen_withfriends.Functions.Wallet.NewWalletD
 import hu.bme.andrismulller.makeithappen_withfriends.Functions.Wallet.WalletFragment;
 import hu.bme.andrismulller.makeithappen_withfriends.Functions.Weather.WeatherFragment;
 import hu.bme.andrismulller.makeithappen_withfriends.MyUtils.Constants;
+import hu.bme.andrismulller.makeithappen_withfriends.model.Alarm;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
 import hu.bme.andrismulller.makeithappen_withfriends.model.FacebookUser;
 import hu.bme.andrismulller.makeithappen_withfriends.model.MyMessage;
+import hu.bme.andrismulller.makeithappen_withfriends.model.Todo;
 import hu.bme.andrismulller.makeithappen_withfriends.model.WalletItem;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -139,7 +121,7 @@ public class MainActivity extends AppCompatActivity
 
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "hu.muller.andris.armando.makeithappen_withfriends",
+                    "hu.bme.andrismulller.makeithappen_withfriends",
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
@@ -151,6 +133,15 @@ public class MainActivity extends AppCompatActivity
         } catch (NoSuchAlgorithmException e) {
 
         }
+
+	    SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFERENCE, Context.MODE_PRIVATE);
+	    if (prefs.getBoolean("firstTime", true)) {
+		    databaseSetup();
+
+		    SharedPreferences.Editor editor = prefs.edit();
+		    editor.putBoolean("firstTime", false);
+		    editor.commit();
+	    }
 
         try {
             mRequestReference = FirebaseDatabase
@@ -192,25 +183,16 @@ public class MainActivity extends AppCompatActivity
             });
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View header=navigationView.getHeaderView(0);
@@ -242,9 +224,18 @@ public class MainActivity extends AppCompatActivity
                 .setBackOff(new ExponentialBackOff());
     }
 
-    @Override
+	private void databaseSetup() {
+    	List<Alarm> alarms = new ArrayList<>();
+    	for (int i = 0; i < Constants.MAX_ALARM_NUMBER; i++){
+    		Alarm alarm = new Alarm("", Calendar.getInstance().getTimeInMillis(), i, false, false, "Not implemented", 0);
+	        alarms.add(alarm);
+    	}
+    	SugarRecord.saveInTx(alarms);
+	}
+
+	@Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -309,7 +300,6 @@ public class MainActivity extends AppCompatActivity
             } else if (id == R.id.nav_calendar) {
                 CalendarFragment calendarFragment = new CalendarFragment();
                 calendarFragment.setArguments(getIntent().getExtras());
-                calendarFragment.setCredential(mCredential);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, calendarFragment).commit();
             } else if (id == R.id.nav_alarm) {
                 AlarmFragment alarmFragment = new AlarmFragment();
@@ -342,7 +332,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -363,18 +353,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAlarmAdded() {
+    public void onAlarmAdded(Alarm alarm, long todo) {
         Fragment page = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (page instanceof AlarmFragment){
+        if (page instanceof AlarmFragment && todo == Constants.CLOCK_ALARM){
             AlarmFragment alarmFragment = (AlarmFragment)page;
-            alarmFragment.update();
+            alarmFragment.update(alarm);
+        } else if (page instanceof TodoFragment){
+        	TodoFragment todoFragment = (TodoFragment)page;
+        	todoFragment.alarmAdded(alarm, todo);
         }
     }
 
     @Override
-    public void onNewAlarm() {
-        SetAlarmDialogFragment setAlarmDialogFragment = SetAlarmDialogFragment.newInstance();
-        setAlarmDialogFragment.show(getSupportFragmentManager(), getString(R.string.set_alarm));
+    public void onNewAlarm(long todo) {
+	    SetAlarmDialogFragment setAlarmDialogFragment = SetAlarmDialogFragment.newInstance(todo);
+	    setAlarmDialogFragment.show(getSupportFragmentManager(), getString(R.string.set_alarm));
     }
 
     @Override
@@ -389,14 +382,14 @@ public class MainActivity extends AppCompatActivity
                             try {
                                 navHeaderUserTV.setText(response.getJSONObject().get("name").toString());
                                 GetFacebookProfilePicture getPicture = new GetFacebookProfilePicture(response.getJSONObject().getString("id"), true);
-                                getPicture.execute(new String[]{"https://graph.facebook.com/" + response.getJSONObject().getString("id") + "/picture?type=small"});
+                                getPicture.execute("https://graph.facebook.com/" + response.getJSONObject().getString("id") + "/picture?type=small");
 
                                 JSONArray jsonArrayFriends = object.getJSONObject("friends").getJSONArray("data");
                                 for (int i = 0; i < jsonArrayFriends.length(); ++i){
                                     JSONObject friend = jsonArrayFriends.getJSONObject(i);
                                     if (!existFriendInDatabase(friend.getString("name"))){
                                         getPicture = new GetFacebookProfilePicture(friend.getString("id"), false);
-                                        getPicture.execute(new String[]{"https://graph.facebook.com/" + friend.getString("id") + "/picture?type=small"});
+                                        getPicture.execute("https://graph.facebook.com/" + friend.getString("id") + "/picture?type=small");
                                         FacebookUser facebookUser = new FacebookUser(friend.getString("name"), friend.getString("id"));
                                         facebookUser.setMyId(facebookUser.save());
                                     }
@@ -465,7 +458,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNewWalletItem(boolean bevetel) {
         NewWalletDialogFragment newWalletDialogFragment = new NewWalletDialogFragment();
-        newWalletDialogFragment.setBevetel(bevetel);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("bevetel", bevetel);
+        newWalletDialogFragment.setArguments(bundle);
         newWalletDialogFragment.show(getSupportFragmentManager(), getString(R.string.new_wallet_item));
     }
 
@@ -506,11 +501,7 @@ public class MainActivity extends AppCompatActivity
         List<FacebookUser> facebookUsers = Select.from(FacebookUser.class)
                 .where(Condition.prop("user_name").eq(name))
                 .list();
-        if (facebookUsers != null && facebookUsers.size() > 0){
-            return true;
-        } else {
-            return false;
-        }
+        return facebookUsers != null && facebookUsers.size() > 0;
     }
 
     private String saveToInternalStorage(Bitmap bitmapImage, String userId){

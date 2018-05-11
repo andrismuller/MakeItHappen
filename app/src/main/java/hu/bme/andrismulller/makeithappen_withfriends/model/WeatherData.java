@@ -8,7 +8,7 @@ import com.orm.dsl.Ignore;
  */
 
 public class WeatherData extends SugarRecord {
-    String dateTimeTtc;
+    String dateTimeUtc;
     String temperature;
     String description;
     String icon;
@@ -21,7 +21,7 @@ public class WeatherData extends SugarRecord {
     }
 
     public WeatherData(String dateTimeUTC, String temperature, String description, String icon, String place, Boolean forecast) {
-        this.dateTimeTtc = dateTimeUTC;
+        this.dateTimeUtc = dateTimeUTC;
         this.temperature = temperature;
         this.description = description;
         this.icon = icon;
@@ -29,12 +29,12 @@ public class WeatherData extends SugarRecord {
         this.forecast = forecast;
     }
 
-    public String getDateTimeTtc() {
-        return dateTimeTtc;
+    public String getDateTimeUtc() {
+        return dateTimeUtc;
     }
 
-    public void setDateTimeTtc(String dateTimeTtc) {
-        this.dateTimeTtc = dateTimeTtc;
+    public void setDateTimeUtc(String dateTimeUtc) {
+        this.dateTimeUtc = dateTimeUtc;
     }
 
     public String getTemperature() {

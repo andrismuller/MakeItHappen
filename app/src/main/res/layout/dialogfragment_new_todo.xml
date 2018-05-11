@@ -43,10 +43,4 @@
             android:layout_weight="1"></Spinner>
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/newtodo_setalarm_button"
-        android:text="@string/set_alarm"/>
-
 </LinearLayout>

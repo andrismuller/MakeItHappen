@@ -5,26 +5,17 @@
     tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Weather.WeatherFragment"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/weather_place_et"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OK"
-            android:id="@+id/weather_place_ok_button"/>
-    </LinearLayout>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/weather_forecast_button"
         android:text="@string/weather_forecast"/>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/weather_progressbar"/>
 
     <ImageView
         android:layout_width="200dp"

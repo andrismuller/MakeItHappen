@@ -14,8 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import hu.bme.andrismulller.makeithappen_withfriends.Functions.Alarm.AlarmFragment;
+import hu.bme.andrismulller.makeithappen_withfriends.MyUtils.Constants;
 import hu.bme.andrismulller.makeithappen_withfriends.R;
+import hu.bme.andrismulller.makeithappen_withfriends.model.Alarm;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Todo;
 
 /**
@@ -28,10 +32,13 @@ public class NewTodoDialogFragment extends DialogFragment {
     EditText descriptionET;
     Spinner prioritySpinner;
     Spinner categorySpinner;
-    Button setAlarmButton;
 
     OnTodoAddedListener onTodoAddedListener;
-    public interface OnTodoAddedListener {
+
+	public void update(Alarm alarm) {
+	}
+
+	public interface OnTodoAddedListener {
         void onTodoAdded();
     }
 
@@ -61,7 +68,7 @@ public class NewTodoDialogFragment extends DialogFragment {
                                 todo.setTodoCategory(categorySpinner.getSelectedItem().toString());
                                 todo.setDone(false);
                                 todo.setCreatedDate(System.currentTimeMillis());
-                                todo.setAlarm_id(0);
+                                todo.setAlarm_id(-1);
                                 todo.setMyId(todo.save());
 
                                 dialog.dismiss();
@@ -89,13 +96,6 @@ public class NewTodoDialogFragment extends DialogFragment {
         requiredET = view.findViewById(R.id.newtodo_required_edittext);
         prioritySpinner = view.findViewById(R.id.newtodo_priority_spinner);
         categorySpinner = view.findViewById(R.id.newtodo_category_spinner);
-        setAlarmButton = view.findViewById(R.id.newtodo_setalarm_button);
-        setAlarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         builder.setView(view);
         return builder.create();

@@ -1,16 +1,13 @@
 package hu.bme.andrismulller.makeithappen_withfriends.Functions.Alarm;
 
 
-import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -21,11 +18,8 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-import hu.bme.andrismulller.makeithappen_withfriends.MainActivity;
 import hu.bme.andrismulller.makeithappen_withfriends.R;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Alarm;
-
-import static android.content.Context.ALARM_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,12 +38,17 @@ public class SetAlarmDialogFragment extends DialogFragment {
     int minute;
 
     OnAlarmAddedListener onAlarmAddedListener;
-    public interface OnAlarmAddedListener {
-        void onAlarmAdded();
+	private long alarmType;
+
+	public interface OnAlarmAddedListener {
+        void onAlarmAdded(Alarm alarm, long alarmType);
     }
 
-    public static SetAlarmDialogFragment newInstance() {
+    public static SetAlarmDialogFragment newInstance(Long alarmType) {
         SetAlarmDialogFragment frag = new SetAlarmDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong("type", alarmType);
+        frag.setArguments(bundle);
         return frag;
     }
 
@@ -57,7 +56,13 @@ public class SetAlarmDialogFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    @NonNull
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		alarmType = getArguments().getLong("type");
+	}
+
+	@NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder=  new  AlertDialog.Builder(getActivity())
@@ -86,32 +91,11 @@ public class SetAlarmDialogFragment extends DialogFragment {
                                 calendar.set(Calendar.HOUR_OF_DAY, hour);
                                 calendar.set(Calendar.MINUTE, minute);
 
-                                Alarm alarm = new Alarm(note, calendar.getTimeInMillis(), "Nincs");
-                                alarm.setMyId(alarm.save());
-
-                                Intent myIntent = new Intent(getActivity(), AlarmReceiver.class);
-                                myIntent.putExtra("note", note);
-                                myIntent.putExtra("type", "alarm");
-                                PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), 0, myIntent, PendingIntent.FLAG_ONE_SHOT);
-                                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getContext().ALARM_SERVICE);
-//                                if (Build.VERSION.SDK_INT >= 23) {
-//                                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
-//                                } else if (Build.VERSION.SDK_INT >= 19) {
-//                                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
-//                                } else {
-//                                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
-//                                }
-                                Intent intentMain = new Intent(getContext(), MainActivity.class);
-                                PendingIntent pendingIntentMain = PendingIntent.getActivity(getContext(), 0, intentMain, 0);
-                                alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), pendingIntentMain), alarmIntent);
+                                Alarm alarm = new Alarm(note, calendar.getTimeInMillis(),0, true, true , "Not implemented", 0);
 
                                 dialog.dismiss();
 
-                                onAlarmAddedListener.onAlarmAdded();
-
-                                Snackbar mySnackbar = Snackbar.make(getActivity().findViewById(R.id.fragment_alarm),
-                                        R.string.alarm_set, Snackbar.LENGTH_SHORT);
-                                mySnackbar.show();
+                                onAlarmAddedListener.onAlarmAdded(alarm, alarmType);
                             }
                         }
                 )

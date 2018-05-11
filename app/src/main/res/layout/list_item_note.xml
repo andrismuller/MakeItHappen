@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:drawable/alert_light_frame"
+    android:background="@drawable/main_item_background"
     android:padding="15dp">
 
     <TextView

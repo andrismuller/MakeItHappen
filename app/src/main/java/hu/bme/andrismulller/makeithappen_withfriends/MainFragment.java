@@ -1,8 +1,12 @@
 package hu.bme.andrismulller.makeithappen_withfriends;
 
 
+import android.*;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +25,8 @@ import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
 import hu.bme.andrismulller.makeithappen_withfriends.model.MyMessage;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Todo;
 import hu.bme.andrismulller.makeithappen_withfriends.model.WeatherData;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 /**
@@ -37,6 +43,10 @@ public class MainFragment extends Fragment implements DownloadWeatherDataTask.On
     List<Controlling> controllings;
     List<MyMessage> requests;
 
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private Location currentLocation;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -48,6 +58,30 @@ public class MainFragment extends Fragment implements DownloadWeatherDataTask.On
         todos = Todo.find(Todo.class, "is_done = 0");
         controllings = Controlling.find(Controlling.class, "activated = 1");
         requests = MyMessage.find(MyMessage.class, "is_request = 1");
+
+        // Acquire a reference to the system Location Manager
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates
+        locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                currentLocation = location;
+                locationManager.removeUpdates(locationListener);
+                getWeather();
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
+            }
+        };
+
+        getLocation();
     }
 
     @Override
@@ -64,16 +98,6 @@ public class MainFragment extends Fragment implements DownloadWeatherDataTask.On
         requestTV.setText(requests.size() + " " + getString(R.string.requests_you_have));
         weatherTV = view.findViewById(R.id.main_weather_tv);
 
-        SharedPreferences myPref = getContext().getSharedPreferences(Constants.MY_PREFERENCE, Context.MODE_PRIVATE);
-        if (myPref.getLong(Constants.KEY_WEATHER_UPDATE_TIME, 0) < Calendar.getInstance().getTimeInMillis() - Constants.WEATHER_UPDATE_INTERVAL) {
-            DownloadWeatherDataTask downloadWeatherDataTask = new DownloadWeatherDataTask(this, Constants.REQUEST_WEATHER, getContext());
-            downloadWeatherDataTask.execute(Constants.BUDAPEST_WEATHER_URL);
-            WeatherData.deleteAll(WeatherData.class,"forecast = 0");
-        } else {
-            List<WeatherData> weatherDataList = WeatherData.find(WeatherData.class, "forecast = 0");
-            onWeatherDataArrived(weatherDataList);
-        }
-
         return view;
     }
 
@@ -81,6 +105,40 @@ public class MainFragment extends Fragment implements DownloadWeatherDataTask.On
     public void onWeatherDataArrived(List<WeatherData> data) {
         if (data == null)
             return;
-        weatherTV.setText(data.get(0).getPlace() + ": " + getString(R.string.temperature) + " (°C): " + data.get(0).getTemperature());
+        weatherTV.setText(data.get(0).getPlace() + ": " + getString(R.string.temperature) + ": " + data.get(0).getTemperature()+ " °C " );
+    }
+
+    @AfterPermissionGranted(Constants.REQUEST_PERMISSION_LOCATION)
+    private void getLocation(){
+        // Register the listener with the Location Manager to receive location updates
+        if (EasyPermissions.hasPermissions(
+                getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        } else {
+            EasyPermissions.requestPermissions(
+                    this,
+                    getString(R.string.need_location_permission),
+                    Constants.REQUEST_PERMISSION_LOCATION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+    }
+
+    private void getWeather(){
+    	try {
+		    SharedPreferences myPref = getActivity().getSharedPreferences(Constants.MY_PREFERENCE, Context.MODE_PRIVATE);
+		    if (myPref.getLong(Constants.KEY_WEATHER_UPDATE_TIME, 0) < Calendar.getInstance().getTimeInMillis() - Constants.WEATHER_UPDATE_INTERVAL && currentLocation != null) {
+			    DownloadWeatherDataTask downloadWeatherDataTask = new DownloadWeatherDataTask(this, Constants.REQUEST_WEATHER, getContext());
+			    downloadWeatherDataTask.execute(Constants.BUDAPEST_WEATHER_URL.replace("q=Budapest,hu", "lat=" + currentLocation.getLatitude() + "&lon=" + currentLocation.getLongitude()));
+		    } else if (myPref.getLong(Constants.KEY_WEATHER_UPDATE_TIME, 0) < Calendar.getInstance().getTimeInMillis() - Constants.WEATHER_UPDATE_INTERVAL) {
+			    DownloadWeatherDataTask downloadWeatherDataTask = new DownloadWeatherDataTask(this, Constants.REQUEST_WEATHER, getContext());
+			    downloadWeatherDataTask.execute(Constants.BUDAPEST_WEATHER_URL);
+		    } else {
+			    List<WeatherData> weatherDataList = WeatherData.find(WeatherData.class, "forecast = 0");
+			    onWeatherDataArrived(weatherDataList);
+		    }
+	    }catch (Exception e){
+    		e.printStackTrace();
+	    }
     }
 }

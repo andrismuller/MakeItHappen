@@ -14,12 +14,13 @@ public class Constants {
     public static final int REQUEST_AUTHORIZATION = 1001;
     public static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     public static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    public static final int REQUEST_PERMISSION_LOCATION = 1004;
 
     public final static int REQUEST_FORECAST = 1;
     public final static int REQUEST_WEATHER = 2;
     public final static String KEY_FORCAST_UPDATE_TIME = "forecast_update_time";
     public final static String KEY_WEATHER_UPDATE_TIME = "weather_update_time";
-    public final static int WEATHER_UPDATE_INTERVAL = 3600000;
+    public final static int WEATHER_UPDATE_INTERVAL = 0;
 
     public static final String MY_PREFERENCE = "mypref";
 
@@ -29,4 +30,11 @@ public class Constants {
 
     public static final String PREF_ACCOUNT_NAME = "accountName";
     public static final int RESULT_OK = 1;
+
+    public static final int MAX_ALARM_NUMBER = 100;
+
+	public static final long CLOCK_ALARM = -1;
+
+	public static final int ALARM_TYPE_CLOCK = 1;
+	public static final int ALARM_TYPE_TODO = 2;
 }

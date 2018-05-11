@@ -26,6 +26,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
             intent1.setClassName("hu.bme.andrismulller.makeithappen_withfriends", "hu.bme.andrismulller.makeithappen_withfriends.Functions.Alarm.AlarmActivity");
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent1.putExtra("note", intent.getStringExtra("note"));
+            intent1.putExtra("id", intent.getLongExtra("id", -1));
             Log.i(TAG, "NOTE: " + intent.getStringExtra("note"));
             context.startActivity(intent1);
         } else if (intent.getStringExtra("type").equals("controlling")){
@@ -33,7 +34,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
             Controlling controlling = Controlling.find(Controlling.class, "id = ?", intent.getStringExtra("id")).get(0);
             controlling.setActivated(false);
-            controlling.update();
+            controlling.save();
         }
     }
 }

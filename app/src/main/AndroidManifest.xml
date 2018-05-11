@@ -9,6 +9,11 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
+    <!-- location -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
+    <uses-feature android:name="android.hardware.location.gps" />
+
     <application
         android:name="com.orm.SugarApp"
         android:allowBackup="true"
@@ -33,7 +38,7 @@
             android:value="MakeItHappenSugar.db" />
         <meta-data
             android:name="VERSION"
-            android:value="4" />
+            android:value="6" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />

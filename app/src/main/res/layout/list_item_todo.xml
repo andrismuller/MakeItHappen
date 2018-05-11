@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:drawable/alert_light_frame"
+    android:background="@drawable/main_item_background"
     android:padding="15dp">
 
     <CheckBox
@@ -32,6 +32,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/todoItem_description_textView"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/todo_set_alarm_button"
+            android:text="@string/set_alarm"/>
 
     </LinearLayout>
 

@@ -47,14 +47,16 @@ public class NoteFragment extends Fragment {
         newNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Note note = new Note();
-                note.setNote(newNoteET.getText().toString());
-                note.setTimeCreated(System.currentTimeMillis());
-                long id = note.save();
-                note.setMyId(id);
-                adapter.addNote(note);
+            	if (newNoteET.getText().toString() != null && newNoteET.getText().toString() != "") {
+		            Note note = new Note();
+		            note.setNote(newNoteET.getText().toString());
+		            note.setTimeCreated(System.currentTimeMillis());
+		            long id = note.save();
+		            note.setMyId(id);
+		            adapter.addNote(note);
 
-                newNoteET.setText("");
+		            newNoteET.setText("");
+	            }
             }
         });
 

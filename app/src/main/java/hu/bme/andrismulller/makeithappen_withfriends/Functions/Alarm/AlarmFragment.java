@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import hu.bme.andrismulller.makeithappen_withfriends.MyUtils.Constants;
 import hu.bme.andrismulller.makeithappen_withfriends.R;
+import hu.bme.andrismulller.makeithappen_withfriends.model.Alarm;
 
 public class AlarmFragment extends Fragment {
     public static final String TAG = "AlarmFragment";
@@ -19,7 +22,7 @@ public class AlarmFragment extends Fragment {
     OnNewAlarmListener onNewAlarmListener;
 
     public interface OnNewAlarmListener {
-        void onNewAlarm();
+        void onNewAlarm(long todo);
     }
 
     public AlarmFragment() {
@@ -49,7 +52,12 @@ public class AlarmFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onNewAlarmListener.onNewAlarm();
+                if (alarmsListAdapter.getCount()  < Constants.MAX_ALARM_NUMBER)
+                    onNewAlarmListener.onNewAlarm(Constants.CLOCK_ALARM);
+                else {
+                    Toast.makeText(getContext(), getString(R.string.no_more_alarm), Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -62,8 +70,8 @@ public class AlarmFragment extends Fragment {
         onNewAlarmListener = (OnNewAlarmListener) context;
     }
 
-    public void update(){
-        alarmsListAdapter.onAlarmAdded();
+    public void update(Alarm alarm){
+        alarmsListAdapter.onAlarmAdded(alarm);
     }
 
 }

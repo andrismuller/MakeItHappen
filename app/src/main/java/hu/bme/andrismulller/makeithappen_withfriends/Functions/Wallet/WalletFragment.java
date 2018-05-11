@@ -32,7 +32,7 @@ public class WalletFragment extends Fragment implements MyWalletRecyclerViewAdap
     Button incomeExpenseButton;
     Button createNewItemButton;
 
-    boolean bevetel;
+    boolean bevetel = false;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).

@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
+import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
@@ -45,13 +48,15 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.transform.Templates;
 
 public class CalendarFragment extends Fragment {
-    private int mColumnCount = 1;
+	private static final String TAG = "CalendarFragment";
+	private int mColumnCount = 1;
 
     private List<String> events;
     ProgressBar mProgress;
@@ -70,6 +75,12 @@ public class CalendarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         events = new ArrayList<>();
+
+        String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                getActivity(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
+
     }
 
     @Override
@@ -94,10 +105,6 @@ public class CalendarFragment extends Fragment {
         return view;
     }
 
-    public void setCredential(GoogleAccountCredential credential){
-        mCredential = credential;
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -109,7 +116,8 @@ public class CalendarFragment extends Fragment {
                 }
                 break;
             case Constants.REQUEST_ACCOUNT_PICKER:
-                if (resultCode == Constants.RESULT_OK && data != null &&
+	            Log.i(TAG, "result code: " + resultCode + ", data: " + (data!=null) + ", extras: " + (data.getExtras()!=null));
+	             if (/*resultCode == Constants.RESULT_OK && */data != null &&
                         data.getExtras() != null) {
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
@@ -135,6 +143,11 @@ public class CalendarFragment extends Fragment {
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
+        } else if (mCredential == null){
+	        String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+            mCredential = GoogleAccountCredential.usingOAuth2(
+                    getActivity(), Arrays.asList(SCOPES))
+                    .setBackOff(new ExponentialBackOff());
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (!isDeviceOnline()) {

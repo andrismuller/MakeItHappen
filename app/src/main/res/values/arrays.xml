@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="todo_filters">
+        <item>Teendők rendezése</item>
+        <item>Prioritás</item>
+        <item>Kategória</item>
+        <item>Emlékeztető</item>
+    </string-array>
+</resources>
