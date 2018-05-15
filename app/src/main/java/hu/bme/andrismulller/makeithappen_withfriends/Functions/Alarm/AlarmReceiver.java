@@ -7,6 +7,8 @@ import android.os.Vibrator;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import hu.bme.andrismulller.makeithappen_withfriends.Functions.Homescreen.WifiConnectionReceiver;
+import hu.bme.andrismulller.makeithappen_withfriends.Functions.Homescreen.WifiControllingService;
 import hu.bme.andrismulller.makeithappen_withfriends.MyUtils.MyUtils;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
 
@@ -32,9 +34,20 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         } else if (intent.getStringExtra("type").equals("controlling")){
             MyUtils.turnOnWifi(context);
 
-            Controlling controlling = Controlling.find(Controlling.class, "id = ?", intent.getStringExtra("id")).get(0);
-            controlling.setActivated(false);
-            controlling.save();
+            Controlling controlling = Controlling.findById(Controlling.class, intent.getLongExtra("id", -1));
+            if (controlling != null) {
+	            controlling.setActivated(false);
+	            controlling.setActive(false);
+	            controlling.setStartedTime(0);
+	            controlling.save();
+            }
+            context.stopService(new Intent(context, WifiControllingService.class));
+
+	        Intent intent1 = new Intent();
+	        intent1.setClassName("hu.bme.andrismulller.makeithappen_withfriends", "hu.bme.andrismulller.makeithappen_withfriends.Functions.Homescreen.HomeScreenActivity");
+	        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	        intent1.putExtra("id", intent.getLongExtra("id", -1));
+	        context.startActivity(intent1);
         }
     }
 }

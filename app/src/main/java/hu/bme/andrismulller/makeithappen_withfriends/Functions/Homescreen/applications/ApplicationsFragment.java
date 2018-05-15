@@ -28,6 +28,8 @@ public class ApplicationsFragment extends Fragment {
     private Controlling controlling;
     private String[] appsBlocked;
 
+    HomescreenAppsAdapter homescreenAppsAdapter;
+
     public static ApplicationsFragment newInstance(long id) {
 
         Bundle args = new Bundle();
@@ -46,10 +48,12 @@ public class ApplicationsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         long id = getArguments().getLong("id");
-        if (id > 0){
-            controlling = Controlling.find(Controlling.class, "id = ?", String.valueOf(id)).get(0);
+	    controlling = Controlling.findById(Controlling.class, id);
+	    if (controlling != null){
             getApps();
-        }
+        } else
+            appsBlocked = null;
+
         loadApplications();
     }
 
@@ -60,7 +64,8 @@ public class ApplicationsFragment extends Fragment {
 
         RecyclerView homescreenAppsRV = view.findViewById(R.id.homescreen_app_RV);
         homescreenAppsRV.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        homescreenAppsRV.setAdapter(new HomescreenAppsAdapter(getActivity(), homescreenApps));
+        homescreenAppsAdapter = new HomescreenAppsAdapter(getActivity(), homescreenApps);
+        homescreenAppsRV.setAdapter(homescreenAppsAdapter);
 
         return view;
     }
@@ -113,4 +118,24 @@ public class ApplicationsFragment extends Fragment {
         return false;
     }
 
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		controlling = Controlling.findById(Controlling.class, getArguments().getLong("id"));
+
+		if (controlling != null && controlling.isActive()){
+			if (appsBlocked == null) {
+				getApps();
+				loadApplications();
+				homescreenAppsAdapter.update(homescreenApps);
+			}
+		} else {
+			if (appsBlocked != null) {
+				appsBlocked = null;
+				loadApplications();
+				homescreenAppsAdapter.update(homescreenApps);
+			}
+		}
+	}
 }

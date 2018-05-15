@@ -31,4 +31,16 @@
     <string name="cancel_alarm">Leállítás</string>
     <string name="no_more_alarm">Nem állíthat be több emlékeztetőt/ébresztőt!</string>
     <string name="too_high_value">Túl magas érték! Biztos, hogy ennyi a tranzakció összege?</string>
+    <string name="wait_for_dialog">Kérem várjon a dialógusablak megjelenéséig!</string>
+    <string name="sign_in">Jelentkezz be!</string>
+    <string name="from_user">Feladó:</string>
+    <string name="call_back_your_friend_at">A kérés feladója visszahívást kér tőled az időpont előtt fél órával:</string>
+    <string name="you_have_a_task">Feladatod van, hajrá!</string>
+    <string name="controlling_is_active">Korlátozás aktív! Feladata van!</string>
+    <string name="cannot_be_lower">Ennél kevesebb nem lehet!</string>
+    <string name="started">Fut</string>
+    <string name="you_have_no_active_controlling">Nincs aktív korlátozásod!</string>
+    <string name="you_have_an_active_controlling">Van aktív korlátozásod! Fókuszálj a feladatodra!</string>
+    <string name="your_aim">Cél:</string>
+    <string name="is_over">Lejár:</string>
 </resources>

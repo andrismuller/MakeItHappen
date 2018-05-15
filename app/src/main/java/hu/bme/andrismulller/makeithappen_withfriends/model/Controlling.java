@@ -18,6 +18,8 @@ public class Controlling extends SugarRecord {
     private int durationUnit;
     private long startTime;
     private boolean activated;
+    private boolean isActive;
+    private long startedTime;
     @Ignore
     private long myId;
 
@@ -31,6 +33,8 @@ public class Controlling extends SugarRecord {
         this.durationUnit = durationUnit;
         this.startTime = startTime;
         this.activated = false;
+        this.isActive = false;
+        this.startedTime = 0;
     }
 
     public long getMyId() {
@@ -119,7 +123,15 @@ public class Controlling extends SugarRecord {
         this.activated = activated;
     }
 
-    public long getDurationTimeInSec(){
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean active) {
+		isActive = active;
+	}
+
+	public long getDurationTimeInSec(){
         long durationInSec = (long) durationValue * 60;
         if (durationUnit >= 1){
             durationInSec *= 60;
@@ -131,4 +143,12 @@ public class Controlling extends SugarRecord {
 
         return durationInSec;
     }
+
+	public long getStartedTime() {
+		return startedTime;
+	}
+
+	public void setStartedTime(long startedTime) {
+		this.startedTime = startedTime;
+	}
 }

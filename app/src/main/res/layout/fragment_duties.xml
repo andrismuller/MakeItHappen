@@ -1,12 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Homescreen.duties.DutiesFragment">
+    tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Homescreen.duties.DutiesFragment"
+    android:layout_margin="10dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment"
+            android:id="@+id/duties_tv"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"/>
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/duties_controlling_tv"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/duties_tv"/>
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import hu.bme.andrismulller.makeithappen_withfriends.Functions.Homescreen.applications.ApplicationsFragment;
 import hu.bme.andrismulller.makeithappen_withfriends.Functions.Homescreen.duties.DutiesFragment;
+import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
 
 /**
  * Created by Muller Andras on 9/27/2017.

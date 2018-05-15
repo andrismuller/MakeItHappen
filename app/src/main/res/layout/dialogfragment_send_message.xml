@@ -1,49 +1,54 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Messaging.SendMessageDialogFragment"
-    android:orientation="vertical"
-    android:weightSum="10"
     android:padding="10dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="4.5">
+        android:layout_alignParentTop="true"
+        android:id="@+id/message_top_ll">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/send_message_friend_imageview"/>
+            android:id="@+id/send_message_friend_imageview"
+            android:layout_alignParentLeft="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/send_message_name_textview"/>
+            android:id="@+id/send_message_name_textview"
+            android:layout_toRightOf="@id/send_message_friend_imageview"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:id="@+id/send_message_back_button"/>
-    </LinearLayout>
+            android:id="@+id/send_message_back_button"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:minHeight="50dp"
+        android:layout_below="@id/message_top_ll"
+        android:layout_above="@id/message_bottom_layout">
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/earlier_messages_recyclerview"
-            ></android.support.v7.widget.RecyclerView>
+            android:id="@+id/earlier_messages_recyclerview"/>
     </LinearLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="4.5">
+        android:layout_height="wrap_content"
+        android:id="@+id/message_bottom_layout"
+        android:layout_alignParentBottom="true">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,4 +66,4 @@
     </RelativeLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

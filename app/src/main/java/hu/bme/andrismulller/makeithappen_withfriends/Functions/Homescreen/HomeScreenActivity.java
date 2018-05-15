@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -20,8 +21,10 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
+	private final WifiConnectionReceiver wifiConnectionReceiver = new WifiConnectionReceiver();
+	private Intent wifiServiceIntent;
 
-    Controlling controlling;
+	Controlling controlling;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +32,23 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
 
         long id = getIntent().getLongExtra("id", -1);
-        if (id > 0){
-            controlling = Controlling.find(Controlling.class, "id = ?", String.valueOf(id)).get(0);
-            if (controlling.isInternetBlocked()){
-                MyUtils.turnOffWifi(getApplicationContext());
-                registerReceiver(new WifiConnectionReceiver(), new IntentFilter("android.net.wifi.STATE_CHANGE"));
-            }
-            if (controlling.getDurationValue() > 0){
-                Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                myIntent.putExtra("id", id);
-                myIntent.putExtra("type", "controlling");
-                PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, myIntent, PendingIntent.FLAG_ONE_SHOT);
-                AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + controlling.getDurationTimeInSec()*1000, alarmIntent);
+        controlling = Controlling.findById(Controlling.class, id);
+        if (controlling != null && controlling.isActive()) {
+            if (controlling.isInternetBlocked()) {
+	            MyUtils.turnOffWifi(getApplicationContext());
 
+	            wifiServiceIntent = new Intent(this, WifiControllingService.class);
+	            startService(wifiServiceIntent);
             }
+
+            Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+            myIntent.putExtra("id", id);
+            myIntent.putExtra("type", "controlling");
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, myIntent, PendingIntent.FLAG_ONE_SHOT);
+            AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + controlling.getDurationTimeInSec() * 1000, alarmIntent);
+        } else {
+	        stopService(new Intent(this, WifiControllingService.class));
         }
 
         pager = (ViewPager) findViewById(R.id.homescreen_pager);
@@ -51,4 +56,17 @@ public class HomeScreenActivity extends AppCompatActivity {
         pager.setAdapter(pagerAdapter);
 
     }
+
+	@Override
+    public void onBackPressed() {
+	    Toast.makeText(getApplicationContext(), getString(R.string.you_have_a_task), Toast.LENGTH_LONG).show();
+    }
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if ((controlling != null && controlling.isActive()) == false) {
+			stopService(new Intent(this, WifiControllingService.class));
+		}
+	}
 }

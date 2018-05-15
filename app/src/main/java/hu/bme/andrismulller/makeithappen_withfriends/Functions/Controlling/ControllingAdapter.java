@@ -12,8 +12,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import hu.bme.andrismulller.makeithappen_withfriends.R;
@@ -32,6 +35,8 @@ public class ControllingAdapter extends RecyclerView.Adapter<ControllingAdapter.
     OnControllingStartedListener onControllingStartedListener;
     OnSharingListener onSharingListener;
     private List<Controlling> controllings = new ArrayList<>();
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy. MMM dd. hh:mm");
 
     public ControllingAdapter(Context context){
         this.context = context;
@@ -89,8 +94,16 @@ public class ControllingAdapter extends RecyclerView.Adapter<ControllingAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.nameTextView.setText(controllings.get(position).getName());
-        String dateDuration = context.getString(R.string.duration) + controllings.get(position).getDurationValue() + " " + controllings.get(position).getDurationUnit()
-                + " - " + context.getString(R.string.date) + controllings.get(position).getStartTime();
+        String unit;
+        switch (controllings.get(position).getDurationUnit()){
+	        case 0: unit = "perc"; break;
+	        case 1: unit = "óra"; break;
+	        case 2: unit = "nap"; break;
+	        case 3: unit = "hét"; break;
+	        default: unit = String.valueOf(controllings.get(position).getDurationUnit()); break;
+        }
+        String dateDuration = context.getString(R.string.duration) + controllings.get(position).getDurationValue() + " " + unit
+                + " - " + context.getString(R.string.date) + dateFormat.format(new Date(controllings.get(position).getStartTime()));
         holder.dateDurationTextView.setText(dateDuration);
         holder.websitesTextView.setText(controllings.get(position).getUrls());
         holder.appTextView.setText(getAppLabelsString(controllings.get(position)));
@@ -98,11 +111,16 @@ public class ControllingAdapter extends RecyclerView.Adapter<ControllingAdapter.
         holder.startNowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.startNowButton.getText().toString().equals("started")){
+                if (holder.startNowButton.getText().toString().equals(context.getString(R.string.started))){
 
                 } else {
-                    holder.startNowButton.setText("started");
-                    onControllingStartedListener.onControllingStarted(controllings.get(position));
+                	if (Controlling.find(Controlling.class, "is_active = 1") == null || Controlling.find(Controlling.class, "is_active = 1").size() == 0) {
+		                holder.startNowButton.setText(context.getString(R.string.started));
+		                controllings.get(position).setActive(true);
+		                controllings.get(position).setStartedTime(Calendar.getInstance().getTimeInMillis());
+		                controllings.get(position).save();
+		                onControllingStartedListener.onControllingStarted(controllings.get(position));
+	                }
                 }
                 Toast.makeText(context, "start now clicked", Toast.LENGTH_LONG);
             }
@@ -110,20 +128,24 @@ public class ControllingAdapter extends RecyclerView.Adapter<ControllingAdapter.
         holder.activateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.activateButton.getText().toString().equals("activated")){
-                    holder.activateButton.setText("not activated");
-                } else {
-                    holder.activateButton.setText("activated");
-                }
-                Toast.makeText(context, "activate clicked", Toast.LENGTH_LONG);
+//                if (holder.activateButton.getText().toString().equals("activated")){
+//                    holder.activateButton.setText("not activated");
+//                } else {
+//                    holder.activateButton.setText("activated");
+//                }
+                Toast.makeText(context, context.getString(R.string.not_implemented), Toast.LENGTH_LONG);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controllings.get(position).delete();
-                controllings.remove(position);
-                notifyDataSetChanged();
+            	if (controllings.get(position).isActive()){
+            		Toast.makeText(context, context.getString(R.string.controlling_is_active), Toast.LENGTH_LONG).show();
+	            } else {
+		            controllings.get(position).delete();
+		            controllings.remove(position);
+		            notifyDataSetChanged();
+	            }
             }
         });
         holder.shareButton.setOnClickListener(new View.OnClickListener() {

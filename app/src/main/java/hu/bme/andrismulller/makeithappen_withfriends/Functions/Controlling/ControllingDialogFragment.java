@@ -11,7 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -20,7 +22,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.common.base.Objects;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,11 +80,14 @@ public class ControllingDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        exampleUrls.add("https://facebook.com");
+	    setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialogStyle);
+
+	    exampleUrls.add("https://facebook.com");
         exampleUrls.add("https://youtube.com");
+        setCancelable(false);
     }
 
-    @NonNull
+	@NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder=  new  AlertDialog.Builder(getActivity())
@@ -104,10 +113,6 @@ public class ControllingDialogFragment extends DialogFragment {
                                 dialog.dismiss();
 
                                 onControllingAdded.onControllingAdded(controlling);
-
-//                                Snackbar mySnackbar = Snackbar.make(getActivity().findViewById(R.id),
-//                                        R.string.alarm_set, Snackbar.LENGTH_SHORT);
-//                                mySnackbar.show();
                             }
                         }
                 )
@@ -115,6 +120,7 @@ public class ControllingDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
+	                            onControllingAdded.onControllingAdded(null);
                             }
                         }
                 );
@@ -137,8 +143,12 @@ public class ControllingDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 double duration = Double.valueOf(durationEditText.getText().toString());
-                duration -= INCREMENT_VALUE;
-                durationEditText.setText(String.valueOf(duration));
+                if (duration > 1) {
+	                duration -= INCREMENT_VALUE;
+	                durationEditText.setText(String.valueOf(duration));
+                } else {
+                	Toast.makeText(getContext(), getString(R.string.cannot_be_lower), Toast.LENGTH_LONG).show();
+                }
             }
         });
         durationUnitSpinner = view.findViewById(R.id.duration_unit_spinner);
@@ -172,10 +182,13 @@ public class ControllingDialogFragment extends DialogFragment {
         appSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                App app = (App)appSpinner.getSelectedItem();
-                apps.add(app);
-                alreadyAddedList.add(app.getLabel());
-                alreadyAddedAdapter.notifyDataSetChanged();
+                if (i != 0) {
+	                App app = (App) appSpinner.getSelectedItem();
+	                apps.add(app);
+	                alreadyAddedList.add(app.getLabel());
+	                alreadyAddedAdapter.notifyDataSetChanged();
+	                appSpinner.setSelection(0);
+                }
             }
 
             @Override

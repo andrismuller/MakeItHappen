@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.facebook.Profile;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import hu.bme.andrismulller.makeithappen_withfriends.Functions.Request.RequestFragment;
 import hu.bme.andrismulller.makeithappen_withfriends.MyUtils.Constants;
 import hu.bme.andrismulller.makeithappen_withfriends.R;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
@@ -32,6 +34,13 @@ import hu.bme.andrismulller.makeithappen_withfriends.model.MyMessage;
  * A simple {@link Fragment} subclass.
  */
 public class ShareControllingDialogFragment extends DialogFragment {
+
+	public static int REQUEST_PARAM_MESSAGE = 0;
+	public static int REQUEST_PARAM_TYPE = 1;
+	public static int REQUEST_PARAM_TIME = 2;
+	public static int REQUEST_PARAM_NAME_FROM = 3;
+
+
     private String MESSAGES_CHILD;
     List<String> friendsNames;
     List<FacebookUser> friends;
@@ -70,12 +79,17 @@ public class ShareControllingDialogFragment extends DialogFragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 MESSAGES_CHILD = friends.get(friendSpinner.getSelectedItemPosition()).getFacebookId();
 
-                                MyMessage message = new MyMessage(messageET.getText() + Constants.DELIMITER_REQUEST + Constants.REQUEST_TYPE_CALL + Constants.DELIMITER_REQUEST + controlling.getStartTime(),
-                                        Calendar.getInstance().getTimeInMillis(),
-                                        Profile.getCurrentProfile().getId(), friends.get(friendSpinner.getSelectedItemPosition()).getFacebookId(), true);
-                                message.setId(message.save());
+                                if (Profile.getCurrentProfile() != null) {
+                                    MyMessage message = new MyMessage(messageET.getText() + Constants.DELIMITER_REQUEST + Constants.REQUEST_TYPE_CALL + Constants.DELIMITER_REQUEST + controlling.getStartTime() + Constants.DELIMITER_REQUEST + Profile.getCurrentProfile().getName(),
+                                            Calendar.getInstance().getTimeInMillis(),
+                                            Profile.getCurrentProfile().getId(), friends.get(friendSpinner.getSelectedItemPosition()).getFacebookId(), true);
+                                    message.setId(message.save());
 
-                                mFirebaseDatabaseReference.child(MESSAGES_CHILD).push().setValue(message);
+                                    mFirebaseDatabaseReference.child(RequestFragment.REQUESTS).child(MESSAGES_CHILD).push().setValue(message);
+
+                                } else {
+	                                Toast.makeText(getContext(), getString(R.string.sign_in), Toast.LENGTH_LONG).show();
+                                }
                             }
                         })
                 .setNegativeButton(getString(R.string.cancel),

@@ -1,5 +1,6 @@
 package hu.bme.andrismulller.makeithappen_withfriends.Functions.Messaging;
 
+import android.content.Context;
 import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,14 +21,17 @@ import hu.bme.andrismulller.makeithappen_withfriends.model.MyMessage;
 
 public class MessagesAdapter extends FirebaseRecyclerAdapter<MyMessage, MessageHolder> {
 
+	Context context;
+
     /**
      * Initialize a RecyclerView.Adapter that listens to a Firebase query. See
      * {@link FirebaseRecyclerOptions} for configuration options.
      *
      * @param options
      */
-    public MessagesAdapter(FirebaseRecyclerOptions<MyMessage> options) {
+    public MessagesAdapter(FirebaseRecyclerOptions<MyMessage> options, Context context) {
         super(options);
+        this.context = context;
     }
 
     @Override
@@ -39,6 +43,12 @@ public class MessagesAdapter extends FirebaseRecyclerAdapter<MyMessage, MessageH
                 LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.messageTextView.getLayoutParams();
                 layoutParams.gravity = Gravity.RIGHT;
                 holder.messageTextView.setLayoutParams(layoutParams);
+                holder.itemView.setBackground(context.getDrawable(R.drawable.main_item_background));
+            } else {
+	            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.messageTextView.getLayoutParams();
+	            layoutParams.gravity = Gravity.LEFT;
+	            holder.messageTextView.setLayoutParams(layoutParams);
+	            holder.itemView.setBackground(context.getDrawable(R.drawable.low_priority_background));
             }
         }
     }

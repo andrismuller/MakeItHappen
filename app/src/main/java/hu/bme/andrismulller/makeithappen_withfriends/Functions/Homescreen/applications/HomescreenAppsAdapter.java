@@ -1,6 +1,7 @@
 package hu.bme.andrismulller.makeithappen_withfriends.Functions.Homescreen.applications;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import hu.bme.andrismulller.makeithappen_withfriends.model.ApplicationInfo;
 public class HomescreenAppsAdapter extends RecyclerView.Adapter<HomescreenAppsAdapter.ViewHolder> {
 
     private Activity activity;
-    private final List<ApplicationInfo> homescreenAppList;
+    private List<ApplicationInfo> homescreenAppList;
     private LayoutInflater mInflater;
 
     public HomescreenAppsAdapter(Activity activity, List<ApplicationInfo> applications) {
@@ -45,7 +46,9 @@ public class HomescreenAppsAdapter extends RecyclerView.Adapter<HomescreenAppsAd
         holder.applicationsLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.startActivity(app.getIntent());
+	            Intent appIntent = app.getIntent();
+	            appIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                activity.startActivity(appIntent);
             }
         });
     }
@@ -53,6 +56,11 @@ public class HomescreenAppsAdapter extends RecyclerView.Adapter<HomescreenAppsAd
     @Override
     public int getItemCount() {
         return homescreenAppList.size();
+    }
+
+    public void update(List<ApplicationInfo> homescreenApps) {
+        homescreenAppList = homescreenApps;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -4,13 +4,18 @@ package hu.bme.andrismulller.makeithappen_withfriends.Functions.Controlling;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.common.base.Objects;
 
 import hu.bme.andrismulller.makeithappen_withfriends.R;
 import hu.bme.andrismulller.makeithappen_withfriends.model.Controlling;
@@ -23,8 +28,9 @@ public class ControllingFragment extends Fragment {
     private RecyclerView controllingRecyclerView;
     private ControllingAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+	private ProgressBar newControllingProgressBar;
 
-    OnNewControllingListener onNewControllingListener;
+	OnNewControllingListener onNewControllingListener;
 
     public interface OnNewControllingListener{
         void onNewControlling();
@@ -43,12 +49,17 @@ public class ControllingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_controlling, container, false);
 
-        infoTextView = view.findViewById(R.id.controlling_information_textview);
+        newControllingProgressBar = view.findViewById(R.id.new_controlling_progressbar);
         addControllingFab = view.findViewById(R.id.new_controlling_action_button);
         addControllingFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onNewControllingListener.onNewControlling();
+            	if (newControllingProgressBar.getVisibility() == View.GONE){
+		            newControllingProgressBar.setVisibility(View.VISIBLE);
+		            onNewControllingListener.onNewControlling();
+	            } else {
+		            Toast.makeText(getContext(), getString(R.string.wait_for_dialog), Toast.LENGTH_SHORT).show();
+	            }
             }
         });
         controllingRecyclerView = view.findViewById(R.id.controlling_recyclerview);
@@ -67,7 +78,15 @@ public class ControllingFragment extends Fragment {
     }
 
     public void update(Controlling controlling){
-        adapter.onControllingAdded(controlling);
+    	if (controlling != null)
+            adapter.onControllingAdded(controlling);
+
+        newControllingProgressBar.setVisibility(View.GONE);
     }
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		newControllingProgressBar.setVisibility(View.GONE);
+	}
 }

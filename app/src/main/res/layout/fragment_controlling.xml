@@ -1,35 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hu.muller.andris.armando.makeithappen_withfriends.Controlling.ControllingFragment"
-    android:orientation="vertical"
+    tools:context="hu.bme.andrismulller.makeithappen_withfriends.Functions.Controlling.ControllingFragment"
     android:weightSum="1">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/controlling_information_textview"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:text="@string/current_controls_set"
-            android:padding="12dp"
-            android:paddingRight="40dp"/>
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/new_controlling_action_button"
-            android:src="@android:drawable/ic_input_add"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"/>
-    </RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_controlling_action_button"
+        android:src="@android:drawable/ic_input_add"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/controlling_recyclerview"></android.support.v7.widget.RecyclerView>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:id="@+id/new_controlling_progressbar"/>
 
-</LinearLayout>
+
+</RelativeLayout>

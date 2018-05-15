@@ -38,15 +38,13 @@
             android:value="MakeItHappenSugar.db" />
         <meta-data
             android:name="VERSION"
-            android:value="6" />
+            android:value="8" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="hu.bme.andrismulller.makeithappen_withfriends" />
-
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -106,8 +104,13 @@
         <activity
             android:name=".Functions.Weather.WeatherGraphActivity"
             android:label="@string/title_activity_weather_graph"
-            android:theme="@style/NoTitleBar"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"
+            android:theme="@style/NoTitleBar" />
+
+        <service
+            android:name=".Functions.Homescreen.WifiControllingService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>

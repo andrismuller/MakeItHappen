@@ -121,6 +121,7 @@ public class CalendarFragment extends Fragment {
                         data.getExtras() != null) {
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+		             Log.i(TAG, "account name: " + accountName);
                     if (accountName != null) {
                         SharedPreferences settings =
                                 getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -142,6 +143,7 @@ public class CalendarFragment extends Fragment {
 
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
+	        Log.i(TAG, "acquire google play services");
             acquireGooglePlayServices();
         } else if (mCredential == null){
 	        String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
@@ -153,6 +155,7 @@ public class CalendarFragment extends Fragment {
         } else if (!isDeviceOnline()) {
             Toast.makeText(getContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         } else {
+	        Log.i(TAG, "execute request task");
             new MakeRequestTask(mCredential).execute();
         }
     }
@@ -161,18 +164,21 @@ public class CalendarFragment extends Fragment {
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 getActivity(), android.Manifest.permission.GET_ACCOUNTS)) {
+	        Log.i(TAG, "trying to get selected account");
             String accountName = getActivity().getPreferences(Context.MODE_PRIVATE)
                     .getString(Constants.PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
+	            Log.i(TAG, "account selected --> getResultFromApi");
                 mCredential.setSelectedAccountName(accountName);
                 getResultsFromApi();
             } else {
-                // Start a dialog from which the user can choose an account
+                Log.i(TAG, "choose account request");
                 startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         Constants.REQUEST_ACCOUNT_PICKER);
             }
         } else {
+	        Log.i(TAG, "get accounts permission request");
             EasyPermissions.requestPermissions(
                     this,
                     "This app needs to access your Google account (via Contacts).",
@@ -186,6 +192,7 @@ public class CalendarFragment extends Fragment {
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	    Log.i(TAG, "permission request result");
         EasyPermissions.onRequestPermissionsResult(
                 requestCode, permissions, grantResults, this);
     }
@@ -236,6 +243,8 @@ public class CalendarFragment extends Fragment {
                     transport, jsonFactory, credential)
                     .setApplicationName("Google Calendar")
                     .build();
+
+	        Log.i(TAG, "request task created");
         }
 
         /**
@@ -247,6 +256,8 @@ public class CalendarFragment extends Fragment {
             try {
                 return getDataFromApi();
             } catch (Exception e) {
+                e.printStackTrace();
+	            Log.i(TAG, "request failed in background task - error: " + e.getMessage());
                 mLastError = e;
                 cancel(true);
                 return null;
@@ -260,6 +271,7 @@ public class CalendarFragment extends Fragment {
          */
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
+	        Log.i(TAG, "getting data from api");
             DateTime now = new DateTime(System.currentTimeMillis());
             List<String> eventStrings = new ArrayList<>();
             Events events = mService.events().list("primary")
@@ -267,8 +279,10 @@ public class CalendarFragment extends Fragment {
                     .setTimeMin(now)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
-                    .execute();
+		            .execute();
             List<Event> items = events.getItems();
+
+            Log.i(TAG, "successful events query");
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
@@ -292,6 +306,7 @@ public class CalendarFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<String> output) {
+            Log.i(TAG, "Calendar events number: " + output.size());
             mProgress.setVisibility(View.GONE);
             progressTextV.setVisibility(View.GONE);
             if (output == null || output.size() == 0) {} else {
@@ -304,17 +319,24 @@ public class CalendarFragment extends Fragment {
         protected void onCancelled() {
             mProgress.setVisibility(View.INVISIBLE);
             progressTextV.setVisibility(View.GONE);
+	        Log.i(TAG, "request cancelled");
             if (mLastError != null) {
                 if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
                     showGooglePlayServicesAvailabilityErrorDialog(
                             ((GooglePlayServicesAvailabilityIOException) mLastError)
                                     .getConnectionStatusCode());
+	                Log.i(TAG, "google play service availability error - " + mLastError.getMessage());
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
                     startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             Constants.REQUEST_AUTHORIZATION);
-                } else {}
-            } else {}
+	                Log.i(TAG, "user recoverable auth io exception - " + mLastError.getMessage());
+                } else {
+	                Log.i(TAG, "other problem - " + mLastError.getMessage());
+                }
+            } else {
+	            Log.i(TAG, "unknown problem");
+            }
         }
     }
 }
